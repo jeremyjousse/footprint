@@ -1,0 +1,65 @@
+name: release
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-11, windows-latest]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+      - name: 🦀 Rust setup
+        uses: dtolnay/rust-toolchain@stable
+      - name: 🪚 Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+      - name: 🎚️ Install tomato-toml
+        run: cargo install tomato-toml
+      - name: 🕸️ Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+      - name: 🥾 Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: 🎁 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: 🚀 Install Node dependencies
+        run: pnpm i --frozen-lockfile
+      - name: 🚀 Install Semantic-Release
+        run: pnpm i -D semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec
+      #   - name: 📦 Create Release
+      #     run: "npx semantic-release"
+      #     env:
+      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 🚧 Build the app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #ENABLE_CODE_SIGNING: ${{ secrets.APPLE_CERTIFICATE }}
+          #APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          #APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          #APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          #APPLE_ID: ${{ secrets.APPLE_ID }}
+          #APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+        with:
+          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
+          releaseName: "App v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: false
+          prerelease: false
+          tauriScript: pnpm tauri
