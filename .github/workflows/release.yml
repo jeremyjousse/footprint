@@ -1,6 +1,9 @@
-name: release
+name: Release
+
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - "main"
 
 jobs:
   publish:
@@ -42,10 +45,10 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: 🚀 Install Semantic-Release
         run: pnpm i -D semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec
-      #   - name: 📦 Create Release
-      #     run: "npx semantic-release"
-      #     env:
-      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📦 Create Release
+        run: "npx semantic-release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 🚧 Build the app
         uses: tauri-apps/tauri-action@v0
         env:
