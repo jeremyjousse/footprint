@@ -1,0 +1,27 @@
+{
+  "patients": {
+    "add": {
+      "title": "Ajouter un patient",
+      "addButton": "Ajouter"
+    },
+    "form": {
+      "contactEmail": "Email",
+      "contactPhone": "Contacts téléphoniques",
+      "city": "Ville",
+      "country": "Pays",
+      "email": "Email",
+      "firstName": "Prénom",
+      "name": "Nom",
+      "mobilePhone": "Portable",
+      "lastName": "Nom",
+      "phone": "Téléphone fixe",
+      "postalAddress": "Adresse",
+      "postalCode": "Code postal",
+      "street": "Rue"
+    },
+    "list": {
+      "title": "Patients",
+      "addButton": "Ajouter"
+    }
+  }
+}
