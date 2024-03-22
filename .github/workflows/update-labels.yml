@@ -1,0 +1,21 @@
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+name: 🏷️ Update labels
+jobs:
+  labels:
+    name: 🏷️ Update labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+      - name: 🏷️ Push labels
+        uses: lannonbr/issue-label-manager-action@3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          delete: true

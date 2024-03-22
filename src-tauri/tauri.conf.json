@@ -3,19 +3,21 @@
   "version": "0.1.0",
   "identifier": "com.jeremyjousse.footprint",
   "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
     "frontendDist": "../build",
-    "devUrl": "http://localhost:5173",
-    "beforeDevCommand": "pnpm run dev",
-    "beforeBuildCommand": "pnpm run build"
+    "devUrl": "http://localhost:5173"
   },
   "app": {
     "windows": [
       {
         "title": "footprint",
-        "width": 800,
+        "width": 1024,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "minWidth": 1024,
+        "minHeight": 600
       }
     ],
     "security": {

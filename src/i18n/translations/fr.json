@@ -1,0 +1,35 @@
+{
+  "patients": {
+    "add": {
+      "title": "Ajouter un patient",
+      "buttonAction": "Ajouter"
+    },
+    "form": {
+      "contactEmail": "Email",
+      "contactPhone": "Contacts téléphoniques",
+      "city": "Ville",
+      "country": "Pays",
+      "diabetic": "Diabétique",
+      "email": "Email",
+      "firstName": "Prénom",
+      "longDurationDisease": "Malade de longue durée",
+      "name": "Nom",
+      "nationalInsuranceNumber": "Numéro de sécurité sociale",
+      "notes": "Notes",
+      "mobilePhone": "Portable",
+      "lastName": "Nom",
+      "phone": "Téléphone fixe",
+      "postalAddress": "Adresse",
+      "postalCode": "Code postal",
+      "profession": "Profession",
+      "street": "Rue"
+    },
+    "list": {
+      "title": "Patients"
+    },
+    "update": {
+      "title": "Patients",
+      "buttonAction": "Modifier"
+    }
+  }
+}

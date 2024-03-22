@@ -3,15 +3,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [macos-11, windows-latest]
-    runs-on: ${{ matrix.platform }}
-
+  release:
+    name: Release
+    runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
@@ -42,10 +36,49 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: 🚀 Install Semantic-Release
         run: pnpm i -D semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec
-      #   - name: 📦 Create Release
-      #     run: "npx semantic-release"
-      #     env:
-      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📦 Create Release
+        run: "npx semantic-release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-11, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    needs:
+      - release
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+      - name: 🦀 Rust setup
+        uses: dtolnay/rust-toolchain@stable
+      - name: 🪚 Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+      - name: 🎚️ Install tomato-toml
+        run: cargo install tomato-toml
+      - name: 🕸️ Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+      - name: 🥾 Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: 🎁 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: 🚀 Install Node dependencies
+        run: pnpm i --frozen-lockfile
       - name: 🚧 Build the app
         uses: tauri-apps/tauri-action@v0
         env:

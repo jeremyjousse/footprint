@@ -4,13 +4,15 @@
   "description": "enables the default permissions",
   "windows": ["main"],
   "permissions": [
-    "path:default",
-    "event:default",
-    "window:default",
-    "webview:default",
     "app:default",
-    "resources:default",
+    "event:default",
     "menu:default",
-    "tray:default"
-  ]
+    "os:allow-locale",
+    "path:default",
+    "resources:default",
+    "tray:default",
+    "window:default",
+    "webview:default"
+  ],
+  "platforms": ["macOS", "windows"]
 }
