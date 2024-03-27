@@ -1,7 +1,5 @@
-<h1 class="text-3xl font-bold underline text-center">Welcome to Footprint</h1>
-
-<style lang="postcss">
-  :global(html) {
-    background-color: theme(colors.gray.300);
-  }
-</style>
+<h1
+  class="text-3xl font-bold underline text-center text-gray-900 dark:text-white"
+>
+  Welcome to Footprint
+</h1>

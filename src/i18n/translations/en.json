@@ -1,0 +1,12 @@
+{
+  "patients": {
+    "add": {
+      "title": "Add a patient",
+      "addButton": "Add"
+    },
+    "list": {
+      "title": "Patients",
+      "addButton": "Ajouter"
+    }
+  }
+}
