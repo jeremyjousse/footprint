@@ -1,8 +1,5 @@
 import type { Breadcrumb } from "domain/valueObjects/Breadcrumb";
 
-export const prerender = true;
-export const ssr = false;
-
 export type PatientLoadData = {
   breadcrumbs: Breadcrumb[];
 };

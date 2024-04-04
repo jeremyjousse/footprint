@@ -10,7 +10,7 @@
   export let data: TableData;
 
   const handleDetail = (id: string) => {
-    goto(`${data.detailPath}${id}`);
+    goto(`${data.detailPath}?id=${id}`);
   };
 </script>
 

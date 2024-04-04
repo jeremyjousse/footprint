@@ -1,15 +1,13 @@
 import type { Breadcrumb } from "$domain";
 import { error } from "@sveltejs/kit";
-
-export const prerender = true;
-export const ssr = false;
+import { page } from "$app/stores";
 
 export type PatientDetailLoadData = {
   id: string;
   breadcrumbs: Breadcrumb[];
 };
 
-export const load = async ({ params }): Promise<PatientDetailLoadData> => {
+export const load = async ({ url }): Promise<PatientDetailLoadData> => {
   const breadcrumbs: Breadcrumb[] = [
     {
       link: "/",
@@ -26,6 +24,6 @@ export const load = async ({ params }): Promise<PatientDetailLoadData> => {
   ];
   return {
     breadcrumbs: breadcrumbs,
-    id: params.id,
+    id: url.searchParams.get("id") || "",
   };
 };

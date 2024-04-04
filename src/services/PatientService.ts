@@ -42,7 +42,7 @@ class PatientService {
       rowActions,
       filter,
       sort,
-      detailPath: "/patients/",
+      detailPath: "/patients/detail",
     };
   };
 
