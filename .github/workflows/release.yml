@@ -6,6 +6,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.release_id.outputs.result }}
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
@@ -37,9 +39,22 @@ jobs:
       - name: 🚀 Install Semantic-Release
         run: pnpm i -D semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec
       - name: 📦 Create Release
+        id: semantic
         run: "npx semantic-release"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 🏷️ Get release id
+        id: release_id
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data } = await github.rest.repos.getLatestRelease({ 
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: "${{ steps.semantic.outputs.gitTag }}"
+            })
+
+            return data.id
 
   build:
     permissions:
@@ -90,9 +105,10 @@ jobs:
           #APPLE_ID: ${{ secrets.APPLE_ID }}
           #APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         with:
+          releaseId: ${{ needs.release.outputs.release_id }}
           tagName: __VERSION__
-          releaseName: __VERSION__
-          releaseBody: "See the assets to download this version and install."
+          # releaseName: __VERSION__
+          # releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false
           tauriScript: pnpm tauri

@@ -4,6 +4,9 @@
       "title": "Ajouter un patient",
       "buttonAction": "Ajouter"
     },
+    "detail": {
+      "title": "Detail"
+    },
     "form": {
       "contactEmail": "Email",
       "contactPhone": "Contacts téléphoniques",
@@ -12,6 +15,7 @@
       "diabetic": "Diabétique",
       "email": "Email",
       "firstName": "Prénom",
+      "health": "Santé",
       "longDurationDisease": "Malade de longue durée",
       "name": "Nom",
       "nationalInsuranceNumber": "Numéro de sécurité sociale",
