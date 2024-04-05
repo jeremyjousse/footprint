@@ -22,10 +22,6 @@
           >{column.name}
         </th>
       {/each}
-      {#if data.rowActions?.length > 0}
-        <th class="sticky top-6 border-l bg-neutral-800 px-6 font-medium"
-          >Action</th
-        >{/if}
     </tr>
   </thead>
   <tbody>
@@ -39,8 +35,6 @@
         {#each data.columns as column}
           <td>{row[column.field]}</td>
         {/each}
-        {#if data.rowActions?.length > 0}
-          <td><ButtonGroup /></td>{/if}
       </tr>
     {/each}
   </tbody>

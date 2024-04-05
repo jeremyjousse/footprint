@@ -8,10 +8,6 @@ import { invoke } from "@tauri-apps/api/core";
 
 class PatientService {
   loadInitData = async (): Promise<TableData> => {
-    const viewAction = () => {
-      console.log("view action");
-    };
-
     const sort: TableSort = new TableSort("createdAt");
     const columns: TableColumn[] = [
       {
@@ -24,10 +20,7 @@ class PatientService {
         field: "firstName",
         filter: { type: "string" },
       },
-      { name: "Add date", field: "createdAt" },
     ];
-
-    const rowActions: RowAction[] = [{ name: "view", action: viewAction }];
 
     const filter = {
       lastName: "",
@@ -39,11 +32,38 @@ class PatientService {
     return {
       columns,
       rows,
-      rowActions,
       filter,
       sort,
       detailPath: "/patients/detail",
     };
+  };
+
+  initNewPatient = (): Patient => {
+    const patient: Patient = {
+      birthdate: null,
+      createdAt: null,
+      contactInformation: {
+        email: null,
+        phone: null,
+        mobilePhone: null,
+      },
+      diabetic: false,
+      longDurationDisease: false,
+      nationalInsuranceNumber: null,
+      notes: "",
+      personalName: {
+        firstName: "",
+        lastName: "",
+      },
+      postalAddress: {
+        city: null,
+        country: null,
+        postalCode: null,
+        street: null,
+      },
+      updatedAt: null,
+    };
+    return patient;
   };
 
   list = async (): Promise<Patient[]> => {

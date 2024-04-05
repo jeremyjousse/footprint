@@ -31,5 +31,6 @@
     "comments": "on",
     "strings": true
   },
-  "css.validate": false
+  "css.validate": false,
+  "conventionalCommits.scopes": ["patient"]
 }

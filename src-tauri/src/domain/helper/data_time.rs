@@ -16,7 +16,6 @@ pub fn naive_date_time_to_naive_date(naive_date_time: NaiveDateTime) -> NaiveDat
 
 pub mod option_date_serializer {
     use chrono::NaiveDate;
-    use log::info;
     use serde::{Deserialize, Deserializer, Serializer};
 
     const FORMAT: &'static str = "%Y-%m-%d";
@@ -26,10 +25,7 @@ pub mod option_date_serializer {
         serializer: S,
     ) -> Result<S::Ok, S::Error> {
         match date {
-            Some(date) => {
-                let s = format!("{}", date.format(FORMAT));
-                serializer.serialize_str(&s)
-            }
+            Some(date) => serializer.serialize_str(&date.format(FORMAT).to_string()),
             None => serializer.serialize_str(""),
         }
     }
@@ -37,9 +33,13 @@ pub mod option_date_serializer {
     pub fn deserialize<'de, D: Deserializer<'de>>(
         deserializer: D,
     ) -> Result<Option<NaiveDate>, D::Error> {
-        let s = String::deserialize(deserializer)?;
-        NaiveDate::parse_from_str(&s, FORMAT)
-            .map(|date| Some(date))
-            .map_err(serde::de::Error::custom)
+        let s: Option<String> = Option::deserialize(deserializer)?;
+        if let Some(s) = s {
+            return Ok(Some(
+                NaiveDate::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?,
+            ));
+        }
+
+        Ok(None)
     }
 }

@@ -6,8 +6,9 @@
   import { patientSchema, type Patient } from "$domain";
   import FormInput from "$components/atoms/form/FormInput.svelte";
   import { invoke } from "@tauri-apps/api/core";
-  import FormButton from "$components/atoms/form/FormButton.svelte";
+  import Button from "$components/atoms/Button.svelte";
   import Checkbox from "$components/atoms/form/Checkbox.svelte";
+  import { goto } from "$app/navigation";
 
   export let patient: Patient;
   export let action: "add" | "update";
@@ -17,9 +18,15 @@
     dataType: "json",
   });
 
-  const handleCreatePatient = async () => {
-    console.log(`patient_add_command ${JSON.stringify($form)}`);
+  const handleUpdatePatient = async () => {
+    if ($form.birthdate == "") {
+      $form.birthdate = null; // TODO fix this hack
+    }
     await invoke(`patient_${action}_command`, { patient: $form });
+
+    if (action === "add") {
+      goto("/patients");
+    }
   };
 
   const handleCheckboxChange = (event: Event, field: string): void => {
@@ -29,18 +36,15 @@
   };
 </script>
 
-<form method="POST" use:enhance class="mt-8">
-  <!-- TODO PRevent default -->
+<form
+  method="POST"
+  use:enhance
+  on:submit|preventDefault={handleUpdatePatient}
+  class="mt-8"
+>
+  {$errors.length}
   <div class="grid grid-cols-5 gap-4">
     <div>{$t("patients.form.name")}</div>
-    <div class="col-span-2">
-      <FormInput
-        name="firstName"
-        placeholder={$t("patients.form.firstName")}
-        bind:value={$form.personalName.firstName}
-        errors={$errors.personalName?.firstName}
-      />
-    </div>
     <div class="col-span-2">
       <FormInput
         type="text"
@@ -48,6 +52,14 @@
         placeholder={$t("patients.form.lastName")}
         bind:value={$form.personalName.lastName}
         errors={$errors.personalName?.lastName}
+      />
+    </div>
+    <div class="col-span-2">
+      <FormInput
+        name="firstName"
+        placeholder={$t("patients.form.firstName")}
+        bind:value={$form.personalName.firstName}
+        errors={$errors.personalName?.firstName}
       />
     </div>
   </div>
@@ -139,7 +151,7 @@
       <Checkbox
         value="1"
         checked={$form.longDurationDisease == 1}
-        on:change={(e) => handleCheckboxChange(e, "")}
+        on:change={(e) => handleCheckboxChange(e, "longDurationDisease")}
         >{$t("patients.form.longDurationDisease")}</Checkbox
       >
     </div>
@@ -190,8 +202,8 @@
   </div>
 
   <div class="flex justify-end">
-    <FormButton onclick={() => handleCreatePatient()}
-      >{$t(`patients.${action}.buttonAction`)}</FormButton
+    <Button color="primary" onclick={() => handleUpdatePatient()}
+      >{$t(`patients.${action}.buttonAction`)}</Button
     >
   </div>
 </form>
