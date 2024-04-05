@@ -8,6 +8,7 @@
       "title": "Detail"
     },
     "form": {
+      "birthdate": "Anniversaire",
       "contactEmail": "Email",
       "contactPhone": "Contacts téléphoniques",
       "city": "Ville",

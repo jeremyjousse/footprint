@@ -5,33 +5,10 @@
   import { invoke } from "@tauri-apps/api/core";
   import Breadcrumb from "$components/molecules/Breadcrumbs.svelte";
   import type { PatientAddLoadData } from "./+page";
+  import { patientService } from "$services";
 
   export let data: PatientAddLoadData;
-  //TODO move in patientService
-  let patient: Patient = {
-    birthdate: null,
-    createdAt: null,
-    contactInformation: {
-      email: null,
-      phone: null,
-      mobilePhone: null,
-    },
-    diabetic: false,
-    longDurationDisease: false,
-    nationalInsuranceNumber: null,
-    notes: "",
-    personalName: {
-      firstName: "",
-      lastName: "",
-    },
-    postalAddress: {
-      city: null,
-      country: null,
-      postalCode: null,
-      street: null,
-    },
-    updatedAt: null,
-  };
+  let patient = patientService.initNewPatient();
 </script>
 
 <Breadcrumb breadcrumbs={data.breadcrumbs} />
