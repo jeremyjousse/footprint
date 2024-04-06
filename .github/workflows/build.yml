@@ -23,8 +23,6 @@ jobs:
           toolchain: stable
           override: true
           components: rustfmt, clippy
-      - name: 🎚️ Install tomato-toml
-        run: cargo install tomato-toml
       - name: 🕸️ Rust cache
         uses: swatinem/rust-cache@v2
         with:
