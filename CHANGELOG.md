@@ -1,3 +1,10 @@
+## [0.0.3](https://github.com/jeremyjousse/footprint/compare/0.0.2...0.0.3) (2024-04-06)
+
+
+### Bug Fixes
+
+* **ci:** :bug: add sqlite for windows ([a56c189](https://github.com/jeremyjousse/footprint/commit/a56c189a2d40104bc286eea0d72ef5a390d1d12e))
+
 ## [0.0.2](https://github.com/jeremyjousse/footprint/compare/0.0.1...0.0.2) (2024-04-06)
 
 
