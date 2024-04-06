@@ -1,3 +1,10 @@
+## [0.0.2](https://github.com/jeremyjousse/footprint/compare/0.0.1...0.0.2) (2024-04-06)
+
+
+### Bug Fixes
+
+* **patient:** :bug: better handling birthdate ([a863696](https://github.com/jeremyjousse/footprint/commit/a8636964aa9930010d53c4d6ea99b0aed300260d))
+
 # 1.0.0 (2024-04-05)
 
 
