@@ -32,5 +32,5 @@
     "strings": true
   },
   "css.validate": false,
-  "conventionalCommits.scopes": ["patient"]
+  "conventionalCommits.scopes": ["patient", "ci"]
 }
