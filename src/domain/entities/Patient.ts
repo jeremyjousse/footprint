@@ -2,22 +2,6 @@ import type { RefinementCtx } from "zod";
 import { z } from "$i18n/zod";
 
 export const patientSchema = z.object({
-  // birthdate: z
-  //   .string()
-  //   .transform((dateString: string) => {
-  //     const dateParsed = Date.parse(dateString);
-  //     if (isNaN(dateParsed)) {
-  //       console.log("paq dateParsed");
-  //       // TODO error
-  //     }
-  //     console.log(dateParsed);
-
-  //     const date = new Date(dateString);
-  //     console.log(date.toISOString().split("T")[0]);
-
-  //     return date.toISOString().split("T")[0];
-  //   })
-  //   .nullable(),
   birthdate: z
     .string()
     .transform((dateString: string, ctx: RefinementCtx) => {
@@ -29,10 +13,10 @@ export const patientSchema = z.object({
           });
         }
       }
-      // TODO nullable
       return dateString;
     })
     .nullable(),
+  // birthdate: z.string().date().nullable(), // TODO wait for Zod new version release
   createdAt: z.date().nullable(),
   contactInformation: z.object({
     email: z.string().email().nullable(),

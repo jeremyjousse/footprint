@@ -1,11 +1,16 @@
 import { toSnakeCase } from "$lib/helpers";
 
+enum DataTableColumnFilterType {
+  String,
+  Boolean,
+  List,
+}
+
 export type TableColumnFilter = {
-  type: "string" | "boolean" | "list"; // TODO enum
+  type: DataTableColumnFilterType;
   values?: string[];
 };
 
-// TODO add an optional formatting function
 export type TableColumn = {
   name: string;
   field: string;
@@ -22,10 +27,6 @@ type TableSortDto = {
   by: string;
   order: TableSortOrder;
 };
-
-// class TableFilter {
-
-// }
 
 class TableSort {
   constructor(by: string) {

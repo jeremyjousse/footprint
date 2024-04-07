@@ -1,0 +1,1 @@
+DELETE TABLE consultation_types;

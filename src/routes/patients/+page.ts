@@ -12,7 +12,7 @@ export const load = async (): Promise<PatientLoadData> => {
     },
     {
       text: "patients.list.title",
-      icon: "Patients",
+      icon: "Patient",
     },
   ];
   return { breadcrumbs };

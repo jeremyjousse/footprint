@@ -20,7 +20,9 @@
       "$lib": ["lib"],
       "$lib/*": ["lib/*"],
       "$services": ["services"],
-      "$services/*": ["services/*"]
+      "$services/*": ["services/*"],
+      "$stores": ["stores"],
+      "$stores/*": ["stores/*"]
     }
   }
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias

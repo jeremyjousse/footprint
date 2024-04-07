@@ -1,8 +1,6 @@
 use chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime};
-use log::info;
 
 pub fn naive_date_to_naive_date_time(naive_date: NaiveDate) -> NaiveDateTime {
-    println!("naive_date_to_naive_date_time {:?}", naive_date);
     NaiveDateTime::new(naive_date, NaiveTime::from_hms_opt(0, 0, 0).unwrap())
 }
 pub fn naive_date_time_to_naive_date(naive_date_time: NaiveDateTime) -> NaiveDate {
