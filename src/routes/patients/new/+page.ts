@@ -16,7 +16,7 @@ export const load = async (): Promise<PatientAddLoadData> => {
     {
       text: "patients.list.title",
       link: "/patients",
-      icon: "Patients",
+      icon: "Patient",
     },
     {
       text: "patients.add.title",

@@ -79,8 +79,6 @@ jobs:
           toolchain: stable
           override: true
           components: rustfmt, clippy
-      - name: 🎚️ Install tomato-toml
-        run: cargo install tomato-toml
       - name: 🕸️ Rust cache
         uses: swatinem/rust-cache@v2
         with:
@@ -109,8 +107,6 @@ jobs:
         with:
           releaseId: ${{ needs.release.outputs.release_id }}
           tagName: __VERSION__
-          # releaseName: __VERSION__
-          # releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false
           tauriScript: pnpm tauri

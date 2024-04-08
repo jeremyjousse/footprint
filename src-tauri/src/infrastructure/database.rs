@@ -16,7 +16,7 @@ pub fn create_database_connection_pool(
         ConnectionManager::<SqliteConnection>::new(global_db_path(app_handle)?.to_str().unwrap());
 
     let pool = Pool::builder()
-        .max_size(8) // TODO change to a variable
+        .max_size(8)
         .test_on_check_out(true)
         .build(manager)?;
 

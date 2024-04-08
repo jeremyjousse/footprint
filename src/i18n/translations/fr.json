@@ -1,4 +1,19 @@
 {
+  "consultationTypes": {
+    "add": {
+      "buttonAction": "Ajouter",
+      "title": "Ajouter un type de consultation",
+      "toastOk": "Le type de consultation {{name}} ajouté.",
+      "toastError": "Erreur lors de l'ajout d'un type de consultation :"
+    },
+    "consultationType": {
+      "name": "Nom",
+      "price": "Prix"
+    },
+    "list": {
+      "title": "Types de consultations"
+    }
+  },
   "patients": {
     "add": {
       "title": "Ajouter un patient",
@@ -36,5 +51,8 @@
       "title": "Patients",
       "buttonAction": "Modifier"
     }
+  },
+  "settings": {
+    "title": "Paramètres"
   }
 }

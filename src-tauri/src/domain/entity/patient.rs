@@ -9,7 +9,7 @@ use crate::domain::value_object::{
     postal_address::PostalAddress,
 };
 
-#[derive(Clone, Debug, Serialize, Validate)]
+#[derive(Clone, Debug, Validate)]
 pub struct Patient {
     pub birthdate: Option<NaiveDate>,
     pub created_at: DateTime<Utc>,
@@ -32,27 +32,3 @@ pub struct Patient {
    t.integer  "family_doctor_id"
    t.integer  "physical_therapists_id"
 */
-
-#[cfg(test)]
-mod patient_tests {
-
-    use log::debug;
-
-    use super::*;
-
-    #[test]
-    fn test_patient() {
-        // let patient = Patient {
-        //     birthdate: None,
-        //     contact_information: todo!(),
-        //     created_at: todo!(),
-        //     id: todo!(),
-        //     note: todo!(),
-        //     personal_name: todo!(),
-        //     postal_address: todo!(),
-        //     updated_at: todo!(),
-        // };
-
-        // debug!("{:?}", patient.personal_name);
-    }
-}

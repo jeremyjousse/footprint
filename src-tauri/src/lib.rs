@@ -9,6 +9,8 @@ use infrastructure::state::DbState;
 // use tauri::App;
 use tauri::Manager;
 
+use adapter::primary::tauri_command::consultation_type::consultation_type_add_command::consultation_type_add_command;
+use adapter::primary::tauri_command::consultation_type::consultation_type_list_command::consultation_type_list_command;
 use adapter::primary::tauri_command::patient::patient_add_command::patient_add_command;
 use adapter::primary::tauri_command::patient::patient_detail_command::patient_detail_command;
 use adapter::primary::tauri_command::patient::patient_list_command::patient_list_command;
@@ -18,6 +20,7 @@ use adapter::primary::tauri_command::patient::patient_update_command::patient_up
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             let app_handle = app.handle();
             app.manage(DbState {
@@ -26,6 +29,8 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            consultation_type_add_command,
+            consultation_type_list_command,
             patient_add_command,
             patient_detail_command,
             patient_list_command,

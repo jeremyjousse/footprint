@@ -9,6 +9,8 @@
   import Button from "$components/atoms/Button.svelte";
   import Checkbox from "$components/atoms/form/Checkbox.svelte";
   import { goto } from "$app/navigation";
+  import { z } from "zod";
+  import { checkboxCheckedUpdate } from "$lib";
 
   export let patient: Patient;
   export let action: "add" | "update";
@@ -22,17 +24,19 @@
     if ($form.birthdate == "") {
       $form.birthdate = null; // TODO fix this hack
     }
-    await invoke(`patient_${action}_command`, { patient: $form });
+    await invoke(`patient_${action}_command`, { patient: $form }); // TODO move to service
 
     if (action === "add") {
       goto("/patients");
     }
   };
 
-  const handleCheckboxChange = (event: Event, field: string): void => {
-    const target = event.target as HTMLFormElement;
-
-    $form[field] = target.checked;
+  export const handleCheckboxChange = (
+    event: Event,
+    field: string,
+    form: z.infer<any>
+  ): void => {
+    checkboxCheckedUpdate(event, field, form);
   };
 </script>
 
@@ -143,7 +147,7 @@
       <Checkbox
         value="1"
         checked={$form.diabetic == 1}
-        on:change={(e) => handleCheckboxChange(e, "diabetic")}
+        on:change={(e) => handleCheckboxChange(e, "diabetic", $form)}
         >{$t("patients.form.diabetic")}</Checkbox
       >
     </div>
@@ -151,7 +155,7 @@
       <Checkbox
         value="1"
         checked={$form.longDurationDisease == 1}
-        on:change={(e) => handleCheckboxChange(e, "longDurationDisease")}
+        on:change={(e) => handleCheckboxChange(e, "longDurationDisease", $form)}
         >{$t("patients.form.longDurationDisease")}</Checkbox
       >
     </div>
@@ -202,7 +206,7 @@
   </div>
 
   <div class="flex justify-end">
-    <Button color="primary" onclick={() => handleUpdatePatient()}
+    <Button color="primary" type="submit"
       >{$t(`patients.${action}.buttonAction`)}</Button
     >
   </div>

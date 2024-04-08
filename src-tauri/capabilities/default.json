@@ -10,6 +10,9 @@
     "os:allow-locale",
     "path:default",
     "resources:default",
+    "store:allow-get",
+    "store:allow-save",
+    "store:allow-set",
     "tray:default",
     "window:default",
     "webview:default"
