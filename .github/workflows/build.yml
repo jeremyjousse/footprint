@@ -10,7 +10,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-11, windows-latest]
+        include:
+          - platform: windows-latest
+            rust-targets: x86_64-pc-windows-msvc
+            tauri-target: x86_64-pc-windows-msvc
+          - platform: macos-latest
+            rust-targets: x86_64-apple-darwin,aarch64-apple-darwin
+            tauri-target: universal-apple-darwin
     runs-on: ${{ matrix.platform }}
     steps:
       - name: 📥 Checkout repository
@@ -18,11 +24,11 @@ jobs:
       - name: 🦀 Rust setup
         uses: dtolnay/rust-toolchain@stable
       - name: 🪚 Install Rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          override: true
           components: rustfmt, clippy
+          targets: ${{ matrix.rust-targets }}
       - name: 🕸️ Rust cache
         uses: swatinem/rust-cache@v2
         with:
@@ -49,6 +55,7 @@ jobs:
           #APPLE_ID: ${{ secrets.APPLE_ID }}
           #APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         with:
+          args: --target ${{ matrix.tauri-target }}
           releaseDraft: false
           prerelease: false
           tauriScript: pnpm tauri
