@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/jeremyjousse/footprint/compare/0.0.3...0.1.0) (2024-04-08)
+
+
+### Features
+
+* **consultation-types:** :sparkles: add consultation types ([353ff64](https://github.com/jeremyjousse/footprint/commit/353ff64d3917ff4341825658f73076db907df03d))
+
 ## [0.0.3](https://github.com/jeremyjousse/footprint/compare/0.0.2...0.0.3) (2024-04-06)
 
 
