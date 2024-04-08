@@ -17,6 +17,7 @@
       "$domain": ["domain"],
       "$domain/*": ["domain/*"],
       "$i18n": ["i18n"],
+      "$i18n/*": ["i18n/*"],
       "$lib": ["lib"],
       "$lib/*": ["lib/*"],
       "$services": ["services"],

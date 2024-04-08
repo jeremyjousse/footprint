@@ -33,5 +33,10 @@
     "strings": true
   },
   "css.validate": false,
-  "conventionalCommits.scopes": ["patient", "ci", "consultation-types"]
+  "conventionalCommits.scopes": [
+    "patient",
+    "ci",
+    "consultation-types",
+    "consultations"
+  ]
 }

@@ -8,6 +8,9 @@ pub enum Error {
     #[error("Generic {0}")]
     Generic(String),
 
+    #[error("ConsultationRepository {0}")]
+    ConsultationRepository(String),
+
     #[error("PatientRepository {0}")]
     PatientRepository(String),
 

@@ -1,10 +1,18 @@
-import type { Patient, RowAction } from "$domain";
+import {
+  Toast,
+  ToastTypes,
+  type Patient,
+  type PatientAddCommandResult,
+  type RowAction,
+} from "$domain";
 import {
   type TableColumn,
   type TableData,
   TableSort,
-} from "$domain/valueObjects/DataTable";
+} from "$domain/valueObjects/TableData";
+import { addToast } from "$stores";
 import { invoke } from "@tauri-apps/api/core";
+import { t } from "$i18n";
 
 class PatientService {
   loadInitData = async (): Promise<TableData> => {
@@ -66,6 +74,56 @@ class PatientService {
     return patient;
   };
 
+  add = async (patient: Patient): Promise<boolean> => {
+    return await invoke<PatientAddCommandResult>("patient_add_command", {
+      patient: this.sanitizePatient(patient),
+    })
+      .then((message: PatientAddCommandResult) => {
+        addToast(
+          new Toast(
+            `${t.get("patient.add.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })} added`,
+            ToastTypes.Success
+          )
+        );
+        return true;
+      })
+      .catch((error) => {
+        addToast(
+          new Toast(
+            `${t.get("patient.add.toastError")} ${error}`,
+            ToastTypes.Error
+          )
+        );
+        return false;
+      });
+  };
+
+  // TODO merge update and add with a private function
+  // extends from a tauri command service
+  update = async (patient: Patient): Promise<boolean> => {
+    return await invoke<PatientAddCommandResult>("patient_update_command", {
+      patient: this.sanitizePatient(patient),
+    })
+      .then((message: PatientAddCommandResult) => {
+        addToast(
+          new Toast(
+            `${t.get("patient.update.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })} added`,
+            ToastTypes.Success
+          )
+        );
+        return true;
+      })
+      .catch((error) => {
+        addToast(
+          new Toast(
+            `${t.get("patient.update.toastError")} ${error}`,
+            ToastTypes.Error
+          )
+        );
+        return false;
+      });
+  };
+
   list = async (): Promise<Patient[]> => {
     return await invoke<Patient[]>("patient_list_command", {});
   };
@@ -73,6 +131,14 @@ class PatientService {
   get = async (id: string): Promise<Patient> => {
     return await invoke<Patient>("patient_detail_command", { id });
   };
+
+  private sanitizePatient(patient: Patient): Patient {
+    if (patient.birthdate == "") {
+      patient.birthdate = null;
+    }
+
+    return patient;
+  }
 }
 
 const patientService = new PatientService();

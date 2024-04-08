@@ -14,12 +14,10 @@ pub struct ContactInformation {
     pub phone: Option<String>,
 }
 
-fn validate_phone_number(phone: &Option<String>) -> Result<(), ValidationError> {
-    if phone.is_some() {
-        let number = phonenumber::parse(None, phone.as_ref().unwrap()).unwrap();
-        if !phonenumber::is_valid(&number) {
-            return Err(ValidationError::new("phone_number"));
-        }
+fn validate_phone_number(phone: &String) -> Result<(), ValidationError> {
+    let number = phonenumber::parse(None, phone).unwrap();
+    if !phonenumber::is_valid(&number) {
+        return Err(ValidationError::new("phone_number"));
     }
 
     Ok(())

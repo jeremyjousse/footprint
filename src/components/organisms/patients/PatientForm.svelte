@@ -3,17 +3,21 @@
   import { zod } from "sveltekit-superforms/adapters";
 
   import { t } from "$i18n";
-  import { patientSchema, type Patient } from "$domain";
+  import { patientSchema, type Patient, DetailActions } from "$domain";
   import FormInput from "$components/atoms/form/FormInput.svelte";
-  import { invoke } from "@tauri-apps/api/core";
   import Button from "$components/atoms/Button.svelte";
   import Checkbox from "$components/atoms/form/Checkbox.svelte";
   import { goto } from "$app/navigation";
   import { z } from "zod";
-  import { checkboxCheckedUpdate } from "$lib";
+  import { patientService } from "$services";
+  import { getContext } from "svelte";
+  import FormLine from "$components/molecules/FormLine.svelte";
+  import Label from "$components/atoms/form/Label.svelte";
+
+  const pageActions = getContext("pageActions") as DetailActions;
 
   export let patient: Patient;
-  export let action: "add" | "update";
+  export let action: Exclude<DetailActions, DetailActions.View>;
 
   const { form, enhance, errors } = superForm(patient, {
     validators: zod(patientSchema),
@@ -21,12 +25,12 @@
   });
 
   const handleUpdatePatient = async () => {
-    if ($form.birthdate == "") {
-      $form.birthdate = null; // TODO fix this hack
+    if (action == DetailActions.Add) {
+      const patientAddResult = patientService.add($form);
+    } else if (action == DetailActions.Edit) {
+      const patientUpdateResult = patientService.update($form);
     }
-    await invoke(`patient_${action}_command`, { patient: $form }); // TODO move to service
-
-    if (action === "add") {
+    if (action.toString() === DetailActions.Add.toString()) {
       goto("/patients");
     }
   };
@@ -36,178 +40,166 @@
     field: string,
     form: z.infer<any>
   ): void => {
-    checkboxCheckedUpdate(event, field, form);
+    const target = event.target as HTMLFormElement;
+
+    form[field] = target.checked;
   };
 </script>
 
-<form
-  method="POST"
-  use:enhance
-  on:submit|preventDefault={handleUpdatePatient}
-  class="mt-8"
->
-  {$errors.length}
-  <div class="grid grid-cols-5 gap-4">
-    <div>{$t("patients.form.name")}</div>
-    <div class="col-span-2">
-      <FormInput
-        type="text"
-        name="lastName"
-        placeholder={$t("patients.form.lastName")}
-        bind:value={$form.personalName.lastName}
-        errors={$errors.personalName?.lastName}
-      />
-    </div>
-    <div class="col-span-2">
-      <FormInput
-        name="firstName"
-        placeholder={$t("patients.form.firstName")}
-        bind:value={$form.personalName.firstName}
-        errors={$errors.personalName?.firstName}
-      />
-    </div>
-  </div>
+<form method="POST" use:enhance on:submit|preventDefault={handleUpdatePatient}>
+  <FormLine>
+    <Label slot="label">{$t("patients.form.name")}</Label>
+    <FormInput
+      type="text"
+      name="firstName"
+      placeholder={$t("patients.form.lastName")}
+      bind:value={$form.personalName.lastName}
+      errors={$errors.personalName?.lastName}
+      slot="firstFormElement"
+    />
+    <FormInput
+      name="firstName"
+      placeholder={$t("patients.form.firstName")}
+      bind:value={$form.personalName.firstName}
+      errors={$errors.personalName?.firstName}
+      slot="secondFormElement"
+    />
+  </FormLine>
+  <FormLine>
+    <Label slot="label">{$t("patients.form.contactPhone")}</Label>
+    <FormInput
+      name="mobilePhone"
+      type="tel"
+      placeholder={$t("patients.form.mobilePhone")}
+      bind:value={$form.contactInformation.mobilePhone}
+      errors={$errors.contactInformation?.mobilePhone}
+      slot="firstFormElement"
+    />
+    <FormInput
+      type="tel"
+      name="phone"
+      placeholder={$t("patients.form.phone")}
+      bind:value={$form.contactInformation.phone}
+      errors={$errors.contactInformation?.phone}
+      slot="secondFormElement"
+    />
+  </FormLine>
 
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.contactPhone")}</div>
-    <div class="col-span-2">
-      <FormInput
-        name="mobilePhone"
-        type="tel"
-        placeholder={$t("patients.form.mobilePhone")}
-        bind:value={$form.contactInformation.mobilePhone}
-        errors={$errors.contactInformation?.mobilePhone}
-      />
-    </div>
-    <div class="col-span-2">
-      <FormInput
-        type="tel"
-        name="phone"
-        placeholder={$t("patients.form.phone")}
-        bind:value={$form.contactInformation.phone}
-        errors={$errors.contactInformation?.phone}
-      />
-    </div>
-  </div>
+  <FormLine>
+    <Label slot="label">{$t("patients.form.contactEmail")}</Label>
 
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.contactEmail")}</div>
-    <div class="col-span-4">
-      <FormInput
-        name="email"
-        type="email"
-        placeholder={$t("patients.form.email")}
-        bind:value={$form.contactInformation.email}
-        errors={$errors.contactInformation?.email}
-      />
-    </div>
-  </div>
+    <FormInput
+      name="email"
+      type="email"
+      placeholder={$t("patients.form.email")}
+      bind:value={$form.contactInformation.email}
+      errors={$errors.contactInformation?.email}
+      slot="firstFormElement"
+    />
+  </FormLine>
+  <FormLine>
+    <Label slot="label">{$t("patients.form.postalAddress")}</Label>
 
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.postalAddress")}</div>
-    <div class="col-span-4">
-      <FormInput
-        name="street"
-        placeholder={$t("patients.form.street")}
-        bind:value={$form.postalAddress.street}
-        errors={$errors.postalAddress?.street}
-      />
-    </div>
-  </div>
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>&nbsp</div>
-    <div class="col-span-1">
-      <FormInput
-        name="postalCode"
-        placeholder={$t("patients.form.postalCode")}
-        bind:value={$form.postalAddress.postalCode}
-        errors={$errors.postalAddress?.postalCode}
-      />
-    </div>
-    <div class="col-span-2">
-      <FormInput
-        name="city"
-        placeholder={$t("patients.form.city")}
-        bind:value={$form.postalAddress.city}
-        errors={$errors.postalAddress?.city}
-      />
-    </div>
-    <div class="col-span-1">
-      <FormInput
-        name="country"
-        placeholder={$t("patients.form.country")}
-        bind:value={$form.postalAddress.country}
-        errors={$errors.postalAddress?.country}
-      />
-    </div>
-  </div>
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.health")}</div>
-    <div class="col-span-2">
-      <Checkbox
-        value="1"
-        checked={$form.diabetic == 1}
-        on:change={(e) => handleCheckboxChange(e, "diabetic", $form)}
-        >{$t("patients.form.diabetic")}</Checkbox
-      >
-    </div>
-    <div class="col-span-2">
-      <Checkbox
-        value="1"
-        checked={$form.longDurationDisease == 1}
-        on:change={(e) => handleCheckboxChange(e, "longDurationDisease", $form)}
-        >{$t("patients.form.longDurationDisease")}</Checkbox
-      >
-    </div>
-  </div>
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div></div>
-    <div class="col-span-2">
-      <FormInput
-        name="country"
-        placeholder={$t("patients.form.nationalInsuranceNumber")}
-        bind:value={$form.nationalInsuranceNumber}
-        errors={$errors.nationalInsuranceNumber}
-      />
-    </div>
-    <div class="col-span-2">
-      <FormInput
-        name="birthdate"
-        type="date"
-        placeholder={$t("patients.form.birthdate")}
-        bind:value={$form.birthdate}
-        errors={$errors.birthdate}
-      />
-    </div>
-  </div>
+    <FormInput
+      name="street"
+      placeholder={$t("patients.form.street")}
+      bind:value={$form.postalAddress.street}
+      errors={$errors.postalAddress?.street}
+      slot="firstFormElement"
+    />
+  </FormLine>
+  <FormLine>
+    <Label slot="label"></Label>
 
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.profession")}</div>
-    <div class="col-span-2">
-      <FormInput
-        name="profession"
-        placeholder={$t("patients.form.profession")}
-        bind:value={$form.profession}
-        errors={$errors.profession}
-      />
-    </div>
-  </div>
+    <FormInput
+      name="postalCode"
+      placeholder={$t("patients.form.postalCode")}
+      bind:value={$form.postalAddress.postalCode}
+      errors={$errors.postalAddress?.postalCode}
+      slot="firstFormElement"
+    />
+    <FormInput
+      name="city"
+      placeholder={$t("patients.form.city")}
+      bind:value={$form.postalAddress.city}
+      errors={$errors.postalAddress?.city}
+      slot="secondFormElement"
+    />
 
-  <div class="grid grid-cols-5 gap-4 mt-4">
-    <div>{$t("patients.form.notes")}</div>
-    <div class="col-span-4">
-      <FormInput
-        name="notes"
-        placeholder={$t("patients.form.notes")}
-        bind:value={$form.notes}
-        errors={$errors.notes}
-      />
-    </div>
-  </div>
+    <FormInput
+      name="country"
+      placeholder={$t("patients.form.country")}
+      bind:value={$form.postalAddress.country}
+      errors={$errors.postalAddress?.country}
+      slot="thirdFormElement"
+    />
+  </FormLine>
+
+  <FormLine>
+    <Label slot="label">{$t("patients.form.health")}</Label>
+
+    <Checkbox
+      value="1"
+      checked={$form.diabetic == 1}
+      on:change={(e) => handleCheckboxChange(e, "diabetic", $form)}
+      slot="firstFormElement">{$t("patients.form.diabetic")}</Checkbox
+    >
+    <Checkbox
+      value="1"
+      checked={$form.longDurationDisease == 1}
+      on:change={(e) => handleCheckboxChange(e, "longDurationDisease", $form)}
+      slot="secondFormElement"
+      >{$t("patients.form.longDurationDisease")}</Checkbox
+    >
+  </FormLine>
+
+  <FormLine>
+    <Label slot="label"></Label>
+
+    <FormInput
+      name="country"
+      placeholder={$t("patients.form.nationalInsuranceNumber")}
+      bind:value={$form.nationalInsuranceNumber}
+      errors={$errors.nationalInsuranceNumber}
+      slot="firstFormElement"
+    />
+
+    <FormInput
+      name="birthdate"
+      type="date"
+      placeholder={$t("patients.form.birthdate")}
+      bind:value={$form.birthdate}
+      errors={$errors.birthdate}
+      slot="secondFormElement"
+    />
+  </FormLine>
+  <FormLine>
+    <Label slot="label">{$t("patients.form.profession")}</Label>
+
+    <FormInput
+      name="profession"
+      placeholder={$t("patients.form.profession")}
+      bind:value={$form.profession}
+      errors={$errors.profession}
+      slot="firstFormElement"
+    />
+  </FormLine>
+
+  <FormLine>
+    <Label slot="label">{$t("patients.form.notes")}</Label>
+
+    <FormInput
+      name="notes"
+      placeholder={$t("patients.form.notes")}
+      bind:value={$form.notes}
+      errors={$errors.notes}
+      slot="firstFormElement"
+    />
+  </FormLine>
 
   <div class="flex justify-end">
     <Button color="primary" type="submit"
-      >{$t(`patients.${action}.buttonAction`)}</Button
+      >{$t(`patients.${action.toLocaleLowerCase()}.buttonAction`)}</Button
     >
   </div>
 </form>

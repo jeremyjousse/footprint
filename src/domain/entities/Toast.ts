@@ -19,7 +19,7 @@ export class Toast {
     this.dismissible = true;
     this.message = message;
     this.type = type;
-    this.dismissible = this.dismissible;
+    this.dismissible = dismissible;
     this.timeout = timeout;
   }
 }
