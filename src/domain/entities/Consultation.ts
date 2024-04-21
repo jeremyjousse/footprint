@@ -1,10 +1,12 @@
-import { ConsultationLocation, ConsultationStatus } from "$domain/valueObjects";
+import {
+  CONSULTATION_LOCATION,
+  CONSULTATION_STATUS,
+} from "$domain/valueObjects";
 
 import type { RefinementCtx } from "zod";
 import { z } from "$i18n/zod";
 
 export const consultationSchema = z.object({
-  // appointmentDateTime: z.string().datetime().nullable(), // TODO
   appointmentDateTime: z
     .string()
     .transform((dateString: string, ctx: RefinementCtx) => {
@@ -15,20 +17,18 @@ export const consultationSchema = z.object({
             code: z.ZodIssueCode.invalid_date,
           });
         }
-        // console.log(`localISOTime ${localISOTime}`);
-        // return date.toISOString().substring(0, 19);
       }
 
       return dateString;
     })
-    .nullable(),
-  consultationType: z.string().min(2),
-  // id: z.string().uuid().nullable(), // TODO
-  location: z.nativeEnum(ConsultationLocation),
+    .nullish(),
+  consultationType: z.string().min(2), // TODO check from backend
+  id: z.string().uuid().nullish(), // TODO only on create
+  location: z.nativeEnum(CONSULTATION_LOCATION),
   note: z.string().min(2).nullable(),
   patientId: z.string().uuid(),
-  price: z.number().multipleOf(0.01),
-  status: z.nativeEnum(ConsultationStatus),
+  price: z.number().multipleOf(0.01).gt(0),
+  status: z.nativeEnum(CONSULTATION_STATUS),
 });
 
 export type Consultation = z.infer<typeof consultationSchema>;

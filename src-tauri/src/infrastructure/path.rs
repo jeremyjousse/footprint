@@ -1,6 +1,5 @@
 use log::{debug, info};
 use std::{
-    alloc::System,
     fs,
     path::{Path, PathBuf},
 };

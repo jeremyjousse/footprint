@@ -1,12 +1,18 @@
 {
   "cSpell.words": [
     "birthdate",
+    "celes",
     "chrono",
+    "Datelike",
+    "Développeur",
     "hoverable",
     "Insertable",
+    "Jérémy",
     "phonenumber",
     "superforms",
-    "Tauri"
+    "Tauri",
+    "thiserror",
+    "valibot"
   ],
   "rust-analyzer.linkedProjects": [
     "./src-tauri/Cargo.toml",
@@ -38,5 +44,8 @@
     "ci",
     "consultation-types",
     "consultations"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#4B0082"
+  }
 }

@@ -3,6 +3,7 @@ import {
   ToastTypes,
   type Patient,
   type PatientAddCommandResult,
+  type PatientAggregateDto,
   type RowAction,
 } from "$domain";
 import {
@@ -10,9 +11,10 @@ import {
   type TableData,
   TableSort,
 } from "$domain/valueObjects/TableData";
-import { addToast } from "$stores";
+import { addToast, patientStore } from "$stores";
 import { invoke } from "@tauri-apps/api/core";
 import { t } from "$i18n";
+import type { ConsultationAggregate } from "$domain/aggregates";
 
 class PatientService {
   loadInitData = async (): Promise<TableData> => {
@@ -75,13 +77,14 @@ class PatientService {
   };
 
   add = async (patient: Patient): Promise<boolean> => {
+    console.log(patient);
     return await invoke<PatientAddCommandResult>("patient_add_command", {
       patient: this.sanitizePatient(patient),
     })
       .then((message: PatientAddCommandResult) => {
         addToast(
           new Toast(
-            `${t.get("patient.add.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })} added`,
+            `${t.get("patients.add.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })}`,
             ToastTypes.Success
           )
         );
@@ -90,7 +93,7 @@ class PatientService {
       .catch((error) => {
         addToast(
           new Toast(
-            `${t.get("patient.add.toastError")} ${error}`,
+            `${t.get("patients.add.toastError")} ${error}`,
             ToastTypes.Error
           )
         );
@@ -107,7 +110,7 @@ class PatientService {
       .then((message: PatientAddCommandResult) => {
         addToast(
           new Toast(
-            `${t.get("patient.update.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })} added`,
+            `${t.get("patients.edit.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })}`,
             ToastTypes.Success
           )
         );
@@ -116,7 +119,7 @@ class PatientService {
       .catch((error) => {
         addToast(
           new Toast(
-            `${t.get("patient.update.toastError")} ${error}`,
+            `${t.get("patients.edit.toastError")} ${error}`,
             ToastTypes.Error
           )
         );
@@ -129,7 +132,31 @@ class PatientService {
   };
 
   get = async (id: string): Promise<Patient> => {
-    return await invoke<Patient>("patient_detail_command", { id });
+    const patient = await invoke<Patient>("patient_detail_command", { id });
+    patientStore.set(patient);
+    return patient;
+  };
+
+  delete = async (id: string): Promise<boolean> => {
+    return await invoke<Patient>("patient_delete_command", { id })
+      .then((message: PatientAddCommandResult) => {
+        addToast(
+          new Toast(
+            `${t.get("patients.delete.toastOk", { name: `${message.personalName.lastName} ${message.personalName.firstName}` })}`,
+            ToastTypes.Success
+          )
+        );
+        return true;
+      })
+      .catch((error) => {
+        addToast(
+          new Toast(
+            `${t.get("patients.delete.toastError")} ${error}`,
+            ToastTypes.Error
+          )
+        );
+        return false;
+      });
   };
 
   private sanitizePatient(patient: Patient): Patient {

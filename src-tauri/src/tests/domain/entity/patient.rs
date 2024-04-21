@@ -10,6 +10,8 @@ use crate::domain::{
     },
 };
 
+#[cfg(test)]
+
 pub fn valid_patient_test_helper() -> Patient {
     Patient {
         birthdate: Some(NaiveDate::parse_from_str("1978-01-09", "%Y-%m-%d").unwrap()),

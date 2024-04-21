@@ -6,19 +6,21 @@ use crate::{
     use_case::consultation_detail::consultation_detail_use_case,
 };
 
-use super::consultation_dto::ConsultationDto;
+use super::consultation_aggregate_dto::ConsultationAggregateDto;
 
 #[tauri::command]
 pub fn consultation_detail_command(
     app_handle: AppHandle,
     id: String,
-) -> Result<Option<ConsultationDto>, Error> {
+) -> Result<Option<ConsultationAggregateDto>, Error> {
     let db_state: tauri::State<'_, DbState> = app_handle.state();
     let mut connection = db_state.global.clone().get().unwrap();
     let id = Uuid::parse_str(&id)?;
     let consultation_result = consultation_detail_use_case(&mut connection, id);
     match consultation_result {
-        Ok(consultation) => Ok(consultation.map(ConsultationDto::from)),
+        Ok(consultation_aggregate) => {
+            Ok(consultation_aggregate.map(ConsultationAggregateDto::from))
+        }
         Err(err) => Err(err),
     }
 }

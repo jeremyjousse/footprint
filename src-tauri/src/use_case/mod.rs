@@ -1,3 +1,5 @@
+pub mod bank_account_add;
+pub mod bank_account_list;
 pub mod consultation_add;
 pub mod consultation_detail;
 pub mod consultation_list;
@@ -5,6 +7,10 @@ pub mod consultation_type_add;
 pub mod consultation_type_list;
 pub mod consultation_update;
 pub mod patient_add;
+pub mod patient_aggregate;
+pub mod patient_delete;
 pub mod patient_detail;
 pub mod patient_list;
 pub mod patient_update;
+pub mod payment_add;
+pub mod payment_update;

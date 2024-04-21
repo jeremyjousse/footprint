@@ -6,11 +6,14 @@ use diesel::{
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::domain::{
-    entity::consultation::Consultation,
-    helper::data_time::date_time_serializer,
-    value_object::{
-        consultation_location::ConsultationLocation, consultation_status::ConsultationStatus,
+use crate::{
+    adapter::primary::tauri_command::payment::payment_dto::PaymentDto,
+    domain::{
+        entity::consultation::Consultation,
+        helper::data_time::date_time_serializer,
+        value_object::{
+            consultation_location::ConsultationLocation, consultation_status::ConsultationStatus,
+        },
     },
 };
 
@@ -24,6 +27,7 @@ pub struct ConsultationDto {
     pub location: ConsultationLocation,
     pub note: Option<String>,
     pub patient_id: String,
+    // pub payments: Option<Vec<PaymentDto>>,
     pub price: f64,
     pub status: ConsultationStatus,
 }

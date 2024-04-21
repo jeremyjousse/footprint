@@ -5,7 +5,6 @@
   import { userLanguage } from "$services";
   import { loadTranslations } from "$i18n";
   import ToastContainer from "$components/molecules/ToastContainer.svelte";
-  // import { configurationStore } from "$stores/configurationStore";
 
   export let data;
 
@@ -13,8 +12,6 @@
     const initLocale = await userLanguage();
     await loadTranslations(initLocale, data.pathname);
   };
-
-  // configurationStore.set(data.configuration);
 </script>
 
 <div class="parent-container grid min-h-screen font-sans">

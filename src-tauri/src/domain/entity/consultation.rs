@@ -1,18 +1,14 @@
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use validator::Validate;
 
-use crate::domain::{
-    helper::validation::validate_sanitized_string,
-    value_object::{
-        consultation_location::ConsultationLocation, consultation_status::ConsultationStatus,
-    },
+use crate::domain::value_object::{
+    consultation_location::ConsultationLocation, consultation_status::ConsultationStatus,
 };
 
-use super::{consultation_type::ConsultationType, patient::Patient};
-
 // TODO add validations
-#[derive(Clone, Debug, Validate)]
+#[derive(Clone, Debug, Deserialize, Serialize, Validate)]
 pub struct Consultation {
     pub appointment_date_time: DateTime<Utc>,
     pub consultation_type: String,

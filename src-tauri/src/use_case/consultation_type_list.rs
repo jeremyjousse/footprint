@@ -1,5 +1,4 @@
 use crate::{
-    adapter::primary::tauri_command::consultation_type::consultation_type_dto::ConsultationTypeDto,
     domain::entity::consultation_type::ConsultationType, infrastructure::type_alias::Result,
 };
 use diesel::{

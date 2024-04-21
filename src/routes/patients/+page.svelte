@@ -4,28 +4,20 @@
   import Button from "$components/atoms/Button.svelte";
   import PageNavbar from "$components/atoms/PageNavbar.svelte";
   import DataTable from "$components/molecules/DataTable.svelte";
-  import type { TableData } from "$domain/valueObjects/TableData";
-  import { patientService } from "$services";
   import { t } from "$i18n";
-  import { DetailActions } from "$domain";
-  export let data: PatientLoadData;
+  import { ADD_EDIT_ACTIONS } from "$domain";
 
-  let tableData: TableData;
-  const loadTableData = async () => {
-    tableData = await patientService.loadInitData();
-  };
+  export let data: PatientLoadData;
 </script>
 
 <PageNavbar>
   <Breadcrumb breadcrumbs={data.breadcrumbs} slot="breadcrumbs" />
   <div slot="actions">
     <Button
-      href={`/patients/detail?action=${DetailActions.Add}`}
+      href={`/patients/edit?action=${ADD_EDIT_ACTIONS.Add}`}
       color="primary">{$t("patients.add.title")}</Button
     >
   </div>
 </PageNavbar>
 
-{#await loadTableData() then}
-  <DataTable data={tableData} />
-{/await}
+<DataTable data={data.tableData} />

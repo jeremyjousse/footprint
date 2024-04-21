@@ -1,6 +1,6 @@
 use chrono::{DateTime, NaiveDate, Utc};
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use validator::Validate;
 
@@ -9,7 +9,7 @@ use crate::domain::value_object::{
     postal_address::PostalAddress,
 };
 
-#[derive(Clone, Debug, Serialize, Validate)]
+#[derive(Clone, Debug, Deserialize, Serialize, Validate)]
 pub struct Patient {
     pub birthdate: Option<NaiveDate>,
     pub created_at: DateTime<Utc>,
@@ -19,7 +19,7 @@ pub struct Patient {
     pub id: Uuid,
     pub long_duration_disease: bool,
     pub national_insurance_number: Option<String>,
-    pub notes: String,
+    pub notes: String, // TODO Option<String>
     #[validate(nested)]
     pub personal_name: PersonalName,
     pub profession: Option<String>,
@@ -35,8 +35,6 @@ pub struct Patient {
 
 #[cfg(test)]
 mod patient_tests {
-
-    use celes::Country;
 
     use crate::tests::domain::entity::patient::valid_patient_test_helper;
 

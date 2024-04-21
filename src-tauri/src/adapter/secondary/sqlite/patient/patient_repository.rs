@@ -16,7 +16,7 @@ use crate::{
 use super::{
     patient_model::DbPatient,
     patient_schema::patients::{
-        self, birthdate, city, country, diabetic, email, first_name, id, last_name,
+        self, all_columns, birthdate, city, country, diabetic, email, first_name, id, last_name,
         long_duration_disease, mobile_phone, national_insurance_number, notes, phone, postal_code,
         profession, street, title, updated_at,
     },
@@ -61,7 +61,7 @@ pub fn get(
         Ok(None) => Ok(None),
         Err(_) => Err(Error::PatientRepository(f!(
             "An error occurred while fetching patient {}",
-            get_id.to_string(),
+            get_id,
         ))),
     }
 }
@@ -93,11 +93,20 @@ pub fn update(
             updated_at.eq(chrono::Utc::now().naive_utc()),
         ))
         .get_result::<DbPatient>(connection)
-        .expect("Error saving library track");
+        .expect("Error updating patient"); // TODO Do not crash if not found
 
     Ok(Patient::from(db_patient))
 }
 
-pub fn delete() {}
+pub fn delete(
+    connection: &mut PooledConnection<ConnectionManager<SqliteConnection>>,
+    delete_id: Uuid,
+) -> Result<usize> {
+    let deleted_rows = diesel::delete(patients::table)
+        .filter(id.eq(delete_id.to_string()))
+        .returning(last_name)
+        .execute(connection)?;
+    Ok(deleted_rows)
+}
 
 pub fn count() {}

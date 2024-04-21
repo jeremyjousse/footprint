@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { InputConstraint } from "sveltekit-superforms";
 
-  export let value: string | number | null;
-  export let errors: string[] | undefined = undefined;
+  export let value: string | number | null | undefined;
+  export let errors: string[] | undefined | { _errors?: string[] } = undefined;
   export let constraints: InputConstraint | undefined = undefined;
 
   export let type = "text";

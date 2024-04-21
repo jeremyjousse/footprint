@@ -5,9 +5,11 @@
   const colorClasses = {
     primary:
       "text-white bg-primary-700 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700",
+    danger:
+      "text-white bg-danger-700 hover:bg-danger-800 dark:bg-danger-600 dark:hover:bg-danger-700",
   };
 
-  export let color: "primary" = "primary";
+  export let color: "primary" | "danger" = "primary";
   export let href: string | undefined = undefined;
   export let tag: "button" | "link" = "button";
   export let type: HTMLButtonAttributes["type"] = "button";
@@ -33,10 +35,8 @@
     on:touchend
     on:touchcancel
     on:mouseenter
-    on:mouseleave
+    on:mouseleave><slot /></a
   >
-    <slot />
-  </a>
 {:else if tag === "button"}
   <button
     {type}

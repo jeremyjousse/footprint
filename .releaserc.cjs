@@ -11,7 +11,7 @@ module.exports = {
       "@semantic-release/exec",
       {
         prepareCmd:
-          'echo "NEXT_RELEASE=${nextRelease.version}" >> $GITHUB_ENV && tomato set package.version ${nextRelease.version} src-tauri/Cargo.toml && cd src-tauri && cargo generate-lockfile',
+          'echo "NEXT_RELEASE=${nextRelease.version}" >> $GITHUB_ENV && tomato set package.version ${nextRelease.version} src-tauri/Cargo.toml && cd src-tauri && cargo generate-lockfile && jq \'.version =  "${nextRelease.version}"\' src-tauri/tauri.conf.json > src-tauri/tauri.conf.json.tmp && mv src-tauri/tauri.conf.json.tmp src-tauri/tauri.conf.json',
       },
     ],
     [
@@ -23,6 +23,7 @@ module.exports = {
           "package-lock.json",
           "src-tauri/Cargo.lock",
           "src-tauri/Cargo.toml",
+          "src-tauri/tauri.conf.json",
         ],
         message: "chore(release): ${nextRelease.version} [skip ci]",
       },

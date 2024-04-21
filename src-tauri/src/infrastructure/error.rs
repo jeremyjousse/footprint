@@ -1,6 +1,3 @@
-// Have a look at Tauri's definition
-// https://github.com/tauri-apps/tauri-plugin-http/blob/v2/src/error.rs
-
 use std::sync::PoisonError;
 
 #[derive(Debug, thiserror::Error)]
@@ -23,11 +20,7 @@ pub enum Error {
     // Parsing(String),
     #[error("Mutex poisoned")]
     Poison(String),
-    // #[error(transparent)]
-    // Network(#[from] reqwest::Error),
 
-    // #[error(transparent)]
-    // UrlParse(#[from] url::ParseError),
     #[error(transparent)]
     DieselR2d2(#[from] diesel::r2d2::PoolError),
 
@@ -37,8 +30,6 @@ pub enum Error {
     // Json(#[from] serde_json::Error),
     #[error(transparent)]
     Uuid(#[from] uuid::Error),
-    // #[error("tokio-cron-scheduler error")]
-    // JobScheduler(#[from] tokio_cron_scheduler::JobSchedulerError),
 }
 
 impl serde::Serialize for Error {

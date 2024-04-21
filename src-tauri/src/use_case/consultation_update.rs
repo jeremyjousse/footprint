@@ -7,8 +7,6 @@ use diesel::{
     SqliteConnection,
 };
 
-use crate::adapter::secondary::sqlite::consultation::consultation_repository::add;
-
 pub fn consultation_update_use_case(
     connection: &mut PooledConnection<ConnectionManager<SqliteConnection>>,
     consultation: Consultation,

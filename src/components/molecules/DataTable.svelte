@@ -7,7 +7,8 @@
   import TableBody from "$components/atoms/dateTable/TableBody.svelte";
   import TableBodyCell from "$components/atoms/dateTable/TableBodyCell.svelte";
   import TableBodyRow from "$components/atoms/dateTable/TableBodyRow.svelte";
-  import { DetailActions } from "$domain";
+  import { DETAIL_ACTIONS } from "$domain";
+  import { displayTableRowValue } from "$lib";
 
   export let data: TableData;
 
@@ -15,7 +16,7 @@
     if (data.detailAction) {
       data.detailAction(id);
     } else {
-      goto(`${data.detailPath}?id=${id}&action=${DetailActions.View}`);
+      goto(`${data.detailPath}?id=${id}&action=${DETAIL_ACTIONS.View}`);
     }
   };
 </script>
@@ -28,9 +29,11 @@
   </TableHead>
   <TableBody>
     {#each data.rows as row, index}
-      <TableBodyRow on:click={() => handleDetail(row.id)}>
+      <TableBodyRow onclick={() => handleDetail(row.id)}>
         {#each data.columns as column}
-          <TableBodyCell>{row[column.field]}</TableBodyCell>
+          <TableBodyCell
+            >{displayTableRowValue(row[column.field], column)}</TableBodyCell
+          >
         {/each}
       </TableBodyRow>
     {/each}

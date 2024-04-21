@@ -5,6 +5,7 @@ use uuid::Uuid;
 use crate::domain::entity::consultation_type::ConsultationType;
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ConsultationTypeDto {
     pub id: Option<String>,
     pub name: String,

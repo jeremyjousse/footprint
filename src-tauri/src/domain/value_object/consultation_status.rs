@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use strum::IntoEnumIterator;
 use strum_macros::{EnumIter, EnumString};
 
 #[derive(

@@ -1,3 +1,4 @@
+pub mod aggregate;
 pub mod entity;
 pub mod helper;
 pub mod use_case;

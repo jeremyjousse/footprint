@@ -16,6 +16,5 @@ pub fn patient_add_command(
     let db_state: tauri::State<'_, DbState> = app_handle.state();
     let mut connection = db_state.global.clone().get().unwrap();
 
-    patient_add_use_case(&mut connection, Patient::from(patient))
-        .map(|patient| PatientDto::from(patient))
+    patient_add_use_case(&mut connection, Patient::from(patient)).map(PatientDto::from)
 }

@@ -11,7 +11,7 @@ use crate::domain::{
     },
 };
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PatientDto {
     #[serde(with = "option_date_serializer")]
@@ -23,7 +23,7 @@ pub struct PatientDto {
 
     pub long_duration_disease: bool,
     pub national_insurance_number: Option<String>,
-    pub notes: String,
+    pub notes: String, // TODO Option<String>
     pub personal_name: PersonalName,
 
     pub postal_address: PostalAddress,

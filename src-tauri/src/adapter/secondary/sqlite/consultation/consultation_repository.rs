@@ -3,11 +3,9 @@ use diesel::{
     ExpressionMethods, OptionalExtension, QueryDsl, RunQueryDsl, SelectableHelper,
     SqliteConnection,
 };
-use log::info;
 use uuid::Uuid;
 
 use crate::{
-    adapter::primary::tauri_command::consultation,
     domain::{
         entity::consultation::Consultation,
         value_object::{
@@ -77,7 +75,6 @@ pub fn get(
     connection: &mut PooledConnection<ConnectionManager<SqliteConnection>>,
     get_id: Uuid,
 ) -> Result<Option<Consultation>> {
-    println!(" Consultation get_id {:?}", get_id);
     let db_consultation = consultations::table
         .find(get_id.to_string())
         .select(DbConsultation::as_select())

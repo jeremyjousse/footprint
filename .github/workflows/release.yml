@@ -27,6 +27,8 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           workspaces: "./src-tauri -> target"
+      - name: 🪵 Setup jq
+        uses: dcarbone/install-jq-action@v2
       - name: 🥾 Set up NodeJS
         uses: actions/setup-node@v4
         with:

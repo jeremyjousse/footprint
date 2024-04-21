@@ -1,0 +1,5 @@
+[tools]
+node = 'lts'
+
+[tasks.cleannode]
+run = "rm -rf node_modules"

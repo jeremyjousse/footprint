@@ -16,6 +16,8 @@
       "$components/*": ["components/*"],
       "$domain": ["domain"],
       "$domain/*": ["domain/*"],
+      "$helpers": ["helpers"],
+      "$helpers/*": ["helpers/*"],
       "$i18n": ["i18n"],
       "$i18n/*": ["i18n/*"],
       "$lib": ["lib"],

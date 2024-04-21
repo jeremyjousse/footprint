@@ -1,18 +1,25 @@
-import { type Breadcrumb, DetailActions } from "$domain";
+import {
+  type Breadcrumb,
+  type Patient,
+  patientSchema,
+  type PatientDto,
+} from "$domain";
+import { getIdFromSearchParamsOrThrowError } from "$helpers";
+import { invoke } from "@tauri-apps/api/core";
 
-export type PatientLoadData = {
+export type PatientDetailData = {
   id: string;
   breadcrumbs: Breadcrumb[];
-  action: DetailActions;
+  patient: Patient;
 };
 
-export const load = async ({ url }): Promise<PatientLoadData> => {
-  // TODO update the breadcrumbs according to the action
+export const load = async ({
+  url,
+}: {
+  url: URL;
+}): Promise<PatientDetailData> => {
+  const id = getIdFromSearchParamsOrThrowError(url.searchParams);
 
-  const action =
-    DetailActions[
-      url.searchParams.get("action") as keyof typeof DetailActions
-    ] || DetailActions.Add;
   let breadcrumbs: Breadcrumb[] = [
     {
       link: "/",
@@ -25,18 +32,17 @@ export const load = async ({ url }): Promise<PatientLoadData> => {
     },
     {
       text: "patients.detail.title",
+      icon: "Detail",
     },
   ];
 
-  if (action == DetailActions.Edit) {
-    breadcrumbs[2].link = `/patients/detail?id=${url.searchParams.get("id")}&action=${DetailActions.View}`;
-    breadcrumbs.push({
-      text: "patients.edit.title",
-    });
-  }
+  const patientDto = await invoke<PatientDto>("patient_detail_command", { id });
+
+  const patient = patientSchema.parse(patientDto);
+
   return {
     breadcrumbs: breadcrumbs,
     id: url.searchParams.get("id") || "",
-    action,
+    patient,
   };
 };

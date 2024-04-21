@@ -17,5 +17,5 @@ pub fn consultation_update_command(
     let mut connection = db_state.global.clone().get().unwrap();
 
     consultation_update_use_case(&mut connection, Consultation::from(consultation))
-        .map(|consultation| ConsultationDto::from(consultation))
+        .map(ConsultationDto::from)
 }

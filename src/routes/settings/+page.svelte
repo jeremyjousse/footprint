@@ -16,12 +16,8 @@
 
 <PageNavbar>
   <Breadcrumb breadcrumbs={data.breadcrumbs} slot="breadcrumbs" />
-  <!-- <div slot="actions">
-    <Button href="/patients/new" color="primary"
-      >{$t("patients.add.title")}</Button
-    >
-  </div> -->
 </PageNavbar>
+<Button href="/settings/bank-accounts">{$t("bankAccounts.list.title")}</Button>
 <Button href="/settings/consultation-types"
   >{$t("consultationTypes.list.title")}</Button
 >

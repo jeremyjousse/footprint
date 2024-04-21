@@ -7,6 +7,7 @@ export default {
     extend: {
       colors: {
         primary: colors.indigo,
+        danger: colors.red,
         // Generated with https://uicolors.app/create
         // and https://www.tailwindshades.com/#color=240%2C60.00000000000023%2C99.01960784313727&step-up=8&step-down=11&hue-shift=0&name=white-lilac&base-stop=5&v=1&overrides=e30%3D
         gray_scale: {

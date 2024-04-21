@@ -2,11 +2,13 @@ use chrono::Utc;
 use uuid::Uuid;
 
 use crate::domain::{
-    entity::{consultation::Consultation, consultation_type::ConsultationType},
+    entity::consultation::Consultation,
     value_object::{
         consultation_location::ConsultationLocation, consultation_status::ConsultationStatus,
     },
 };
+
+#[cfg(test)]
 
 pub fn valid_consultation_test_helper() -> Consultation {
     Consultation {

@@ -1,0 +1,1 @@
+DELETE table bank_accounts;

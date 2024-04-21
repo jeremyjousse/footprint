@@ -14,7 +14,7 @@ export type TableColumnFilter = {
 export type TableColumn = {
   name: string;
   field: string;
-  displayHelper?: () => string;
+  displayHelper?: (value: any) => string;
   filter?: TableColumnFilter;
 };
 

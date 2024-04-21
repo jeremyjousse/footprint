@@ -5,7 +5,6 @@ use diesel::{
 };
 
 use crate::{
-    adapter::primary::tauri_command::consultation_type,
     domain::entity::consultation_type::ConsultationType, infrastructure::type_alias::Result,
 };
 

@@ -1,8 +1,10 @@
 import {
-  ConsultationStatus,
+  CONSULTATION_LOCATION,
+  CONSULTATION_STATUS,
   Toast,
   ToastTypes,
   type Consultation,
+  type ConsultationAggregateDto,
 } from "$domain";
 import {
   type TableColumn,
@@ -13,6 +15,8 @@ import { addToast } from "$stores";
 import { invoke } from "@tauri-apps/api/core";
 import { t } from "$i18n";
 import type { ConsultationAddCommandResult } from "$domain/dto/ConsultationAddCommandResult";
+import { displayLocaleDateTime } from "$lib";
+import { consultationStore } from "$stores/consultationStore";
 
 class ConsultationService {
   loadInitData = async (patient: string): Promise<TableData> => {
@@ -21,6 +25,7 @@ class ConsultationService {
       {
         name: "Date",
         field: "appointmentDateTime",
+        displayHelper: displayLocaleDateTime,
       },
       {
         name: "Type",
@@ -57,7 +62,7 @@ class ConsultationService {
     };
   };
 
-  initNewConsultation = (patientId: string): Consultation => {
+  initNewConsultation = (patientId: string): ConsultationAggregateDto => {
     const consultation: Consultation = {
       appointmentDateTime: null,
       consultationType: "",
@@ -65,9 +70,16 @@ class ConsultationService {
       note: null,
       patientId,
       price: null,
-      status: ConsultationStatus.Pending,
+      status: CONSULTATION_STATUS.Pending,
     };
-    return consultation;
+
+    const consultationAggregate: ConsultationAggregateDto = {
+      consultation,
+      payments: [],
+    };
+    consultationStore.set(consultationAggregate);
+
+    return consultationAggregate;
   };
 
   add = async (consultation: Consultation): Promise<boolean> => {
@@ -133,8 +145,19 @@ class ConsultationService {
     });
   };
 
-  get = async (id: string): Promise<Consultation> => {
-    return await invoke<Consultation>("consultation_detail_command", { id });
+  get = async (id: string): Promise<ConsultationAggregateDto> => {
+    return await invoke<ConsultationAggregateDto>(
+      "consultation_detail_command",
+      { id }
+    );
+  };
+
+  locations = () => {
+    return Object.keys(CONSULTATION_LOCATION).map((value) => {
+      return {
+        [value]: $t(`consultations.form.locations.${value}`) as string,
+      };
+    });
   };
 
   private sanitizeConsultation(consultation: Consultation): Consultation {
@@ -149,3 +172,6 @@ class ConsultationService {
 const consultationService = new ConsultationService();
 
 export { consultationService };
+function $t(arg0: string): string {
+  throw new Error("Function not implemented.");
+}

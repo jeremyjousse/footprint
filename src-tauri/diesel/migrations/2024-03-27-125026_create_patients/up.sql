@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS patients (
     id TEXT NOT NULL PRIMARY KEY,
-    birthdate TIMESTAMP,
+    birthdate TIMESTAMP, -- todo update to SQLite date
     city TEXT,
     country TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

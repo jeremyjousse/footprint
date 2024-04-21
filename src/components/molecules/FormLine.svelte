@@ -1,9 +1,8 @@
 <script>
-  import Label from "$components/atoms/form/Label.svelte";
   let firstFormElementClass = "col-span-1";
   let secondFormElementClass = "col-span-2";
   let thirdElementClass = "col-span-1";
-  if (!$$slots.thirdElement) {
+  if (!$$slots.thirdFormElement) {
     firstFormElementClass = "col-span-2";
   }
   if (!$$slots.secondFormElement) {
@@ -21,9 +20,9 @@
       <slot name="secondFormElement" />
     </div>
   {/if}
-  {#if $$slots.thirdElement}
+  {#if $$slots.thirdFormElement}
     <div class={thirdElementClass}>
-      <slot name="thirdElement" />
+      <slot name="thirdFormElement" />
     </div>
   {/if}
 </div>

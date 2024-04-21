@@ -5,6 +5,7 @@
   export let onSubmit = (field: string, value: string) => {};
   export let onInput = (value: string) => {};
   export let name: string;
+  export let errors: string[] | undefined = undefined;
   export let getValue = (
     option: string | { [name: string]: string }
   ): string => {
@@ -124,6 +125,7 @@
       {placeholder}
       {name}
     />
+    {#if errors}<span class="text-red-600">{errors}</span>{/if}
     <slot name="icon" {value} {isExpanded} />
     <div
       class:isExpanded

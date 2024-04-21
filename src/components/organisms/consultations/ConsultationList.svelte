@@ -7,8 +7,9 @@
   import PlusIcon from "$components/atoms/icons/PlusIcon.svelte";
   import DataTable from "$components/molecules/DataTable.svelte";
   import {
-    DetailActions,
+    DETAIL_ACTIONS,
     type Consultation,
+    type ConsultationAggregateDto,
     type Patient,
     type TableData,
   } from "$domain";
@@ -20,6 +21,8 @@
 
   export let patient: Patient;
 
+  let consultationAggregate: ConsultationAggregateDto;
+
   let tableData: TableData;
   const loadTableData = async () => {
     tableData = await consultationService.loadInitData(patient.id);
@@ -27,18 +30,18 @@
   };
 
   let consultation = consultationService.initNewConsultation(patient.id);
-  let consultationFormAction = DetailActions.Add;
+  let consultationFormAction = DETAIL_ACTIONS.Add;
 
-  const handleNewConsultationPopup = () => {
-    consultation = consultationService.initNewConsultation(patient.id);
+  const handleNewConsultationPopup = async () => {
+    consultationAggregate = consultationService.initNewConsultation(patient.id);
     consultationModelIsOpen = true;
-    consultationFormAction = DetailActions.Add;
+    consultationFormAction = DETAIL_ACTIONS.Add;
   };
 
   const handleUpdateConsultationPopup = async (id: string) => {
-    consultation = await consultationService.get(id);
+    consultationAggregate = await consultationService.get(id);
     consultationModelIsOpen = true;
-    consultationFormAction = DetailActions.Edit;
+    consultationFormAction = DETAIL_ACTIONS.Edit;
   };
 </script>
 
@@ -46,7 +49,9 @@
   <PageNavbar>
     <Title slot="breadcrumbs">{$t("consultations.list.title")}</Title>
     <div slot="actions">
-      <Button on:click={() => handleNewConsultationPopup()}><PlusIcon /></Button
+      <Button
+        href={`/patients/detail/consultations/edit?patientId=${patient.id}`}
+        ><PlusIcon /></Button
       >
     </div>
   </PageNavbar>
@@ -58,7 +63,8 @@
     <ConsultationForm
       reloadListAction={loadTableData}
       action={consultationFormAction}
-      {consultation}
+      consultation={consultationAggregate.consultation}
+      payments={consultationAggregate.payments}
       bind:modalIsOpen={consultationModelIsOpen}
     />
   </Modal>
