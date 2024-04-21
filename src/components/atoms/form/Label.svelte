@@ -5,11 +5,16 @@
 
   let node: HTMLLabelElement;
 
-  export let color: ColorType = "gray";
+  export let color: ColorType = "gray_scale";
   export let show: boolean = true;
   export let defaultClass: string = "block";
 
-  $: labelClass = twMerge(defaultClass, colorClasses[color], $$props.class);
+  $: labelClass = twMerge(
+    "text-right",
+    defaultClass,
+    colorClasses[color],
+    $$props.class
+  );
 </script>
 
 {#if show}

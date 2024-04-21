@@ -1,6 +1,7 @@
 mod adapter;
 mod domain;
 mod infrastructure;
+mod tests;
 mod use_case;
 
 use infrastructure::database::create_database_connection_pool;
@@ -9,6 +10,10 @@ use infrastructure::state::DbState;
 // use tauri::App;
 use tauri::Manager;
 
+use adapter::primary::tauri_command::consultation::consultation_add_command::consultation_add_command;
+use adapter::primary::tauri_command::consultation::consultation_detail_command::consultation_detail_command;
+use adapter::primary::tauri_command::consultation::consultation_list_command::consultation_list_command;
+use adapter::primary::tauri_command::consultation::consultation_update_command::consultation_update_command;
 use adapter::primary::tauri_command::consultation_type::consultation_type_add_command::consultation_type_add_command;
 use adapter::primary::tauri_command::consultation_type::consultation_type_list_command::consultation_type_list_command;
 use adapter::primary::tauri_command::patient::patient_add_command::patient_add_command;
@@ -29,6 +34,10 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            consultation_add_command,
+            consultation_detail_command,
+            consultation_list_command,
+            consultation_update_command,
             consultation_type_add_command,
             consultation_type_list_command,
             patient_add_command,

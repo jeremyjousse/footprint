@@ -1,4 +1,35 @@
 {
+  "consultations": {
+    "add": {
+      "buttonAction": "Ajouter",
+      "title": "Ajouter un type de consultation",
+      "toastOk": "Consultation ajoutée.",
+      "toastError": "Erreur lors de l'ajout de la consultation :"
+    },
+    "edit": {
+      "buttonAction": "Modifier"
+    },
+    "form": {
+      "appointmentDateTime": "Date et heure",
+      "consultationType": "Type de consultation",
+      "date": "Date",
+      "location": "Lieu",
+      "locations": {
+        "Clinic": "Cabinet",
+        "Home": "Domicile",
+        "Hospital": "Hôpital"
+      },
+      "note": "Note",
+      "price": "Prix"
+    },
+    "list": {
+      "title": "Consultations"
+    },
+    "update": {
+      "toastOk": "Consultation mise à jour",
+      "toastError": "Erreur lors de lamise à jour de la consultation"
+    }
+  },
   "consultationTypes": {
     "add": {
       "buttonAction": "Ajouter",
@@ -12,15 +43,25 @@
     },
     "list": {
       "title": "Types de consultations"
+    },
+    "update": {
+      "toastOk": "Le type de consultation {{name}} mis à jout.",
+      "toastError": "Erreur lors de la mise à jour d'un type de consultation :"
     }
   },
   "patients": {
     "add": {
       "title": "Ajouter un patient",
-      "buttonAction": "Ajouter"
+      "buttonAction": "Ajouter",
+      "toastOk": "Patient {{name}} ajouté.",
+      "toastError": "Erreur lors de l'ajout du patient :"
     },
     "detail": {
       "title": "Detail"
+    },
+    "edit": {
+      "title": "Patients",
+      "buttonAction": "Modifier"
     },
     "form": {
       "birthdate": "Anniversaire",
@@ -46,10 +87,6 @@
     },
     "list": {
       "title": "Patients"
-    },
-    "update": {
-      "title": "Patients",
-      "buttonAction": "Modifier"
     }
   },
   "settings": {

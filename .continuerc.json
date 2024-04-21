@@ -1,11 +1,6 @@
 {
   "models": [
     {
-      "title": "starcoder2:7b",
-      "provider": "ollama",
-      "model": "starcoder2:7b"
-    },
-    {
       "title": "dolphincoder",
       "provider": "ollama",
       "model": "dolphincoder"

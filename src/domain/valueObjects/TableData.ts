@@ -1,6 +1,6 @@
 import { toSnakeCase } from "$lib/helpers";
 
-enum DataTableColumnFilterType {
+export enum DataTableColumnFilterType {
   String,
   Boolean,
   List,
@@ -48,7 +48,7 @@ class TableSort {
 export { TableSort, TableSortOrder };
 
 export type TableRow = {
-  [name: string]: string | number;
+  [name: string]: string | number | null;
 };
 
 export type TableFilter = {
@@ -67,4 +67,5 @@ export type TableData = {
   filter: TableFilter;
   sort: TableSort;
   detailPath?: string;
+  detailAction?: (id: any) => void;
 };

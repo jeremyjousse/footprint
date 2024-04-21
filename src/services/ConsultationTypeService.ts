@@ -1,5 +1,6 @@
 import { t } from "$i18n";
 import {
+  DataTableColumnFilterType,
   TableSort,
   Toast,
   ToastTypes,
@@ -19,12 +20,12 @@ class ConsultationTypeService {
       {
         name: "Last name",
         field: "lastName",
-        filter: { type: "string" },
+        filter: { type: DataTableColumnFilterType.String },
       },
       {
         name: "First name",
         field: "firstName",
-        filter: { type: "string" },
+        filter: { type: DataTableColumnFilterType.String },
       },
     ];
 
@@ -45,6 +46,7 @@ class ConsultationTypeService {
 
   initNewConsultationType = (): ConsultationType => {
     const consultationType: ConsultationType = {
+      id: null,
       name: "",
       price: 0.0,
     };
@@ -65,9 +67,7 @@ class ConsultationTypeService {
     });
   };
 
-  add = async (
-    consultationType: ConsultationType
-  ): Promise<ConsultationType> => {
+  add = async (consultationType: ConsultationType): Promise<boolean> => {
     return await invoke<ConsultationType>("consultation_type_add_command", {
       consultationType,
     })

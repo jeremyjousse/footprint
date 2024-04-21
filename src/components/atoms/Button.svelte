@@ -13,7 +13,7 @@
   export let type: HTMLButtonAttributes["type"] = "button";
 
   $: buttonClass = twMerge(
-    "rounded-md border border-transparent py-2 px-4 mt-4 text-white shadow-sm text-center font-medium px-5 py-2.5 text-sm",
+    "rounded-md border border-transparent py-2 px-4 text-white shadow-sm text-center font-medium text-sm",
     colorClasses[color],
     $$props.disabled && "cursor-not-allowed opacity-50"
   );

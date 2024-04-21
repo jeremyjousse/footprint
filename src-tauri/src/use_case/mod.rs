@@ -1,5 +1,9 @@
+pub mod consultation_add;
+pub mod consultation_detail;
+pub mod consultation_list;
 pub mod consultation_type_add;
 pub mod consultation_type_list;
+pub mod consultation_update;
 pub mod patient_add;
 pub mod patient_detail;
 pub mod patient_list;

@@ -1,3 +1,3 @@
-import type { ConsultationType } from "$domain/entities";
+import type { ConsultationType } from "$domain";
 
 export type ConsultationTypeAddCommandResult = ConsultationType;

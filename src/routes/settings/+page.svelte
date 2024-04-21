@@ -2,7 +2,7 @@
   import type { PatientLoadData } from "./+page";
   import Breadcrumb from "$components/molecules/Breadcrumbs.svelte";
   import PageNavbar from "$components/atoms/PageNavbar.svelte";
-  import type { TableData } from "$domain/valueObjects/DataTable";
+  import type { TableData } from "$domain/valueObjects/TableData";
   import { patientService } from "$services";
   import { t } from "$i18n";
   import Button from "$components/atoms/Button.svelte";
@@ -22,7 +22,6 @@
     >
   </div> -->
 </PageNavbar>
-
 <Button href="/settings/consultation-types"
   >{$t("consultationTypes.list.title")}</Button
 >

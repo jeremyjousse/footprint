@@ -6,7 +6,7 @@
   import Table from "$components/atoms/dateTable/Table.svelte";
   import TableHead from "$components/atoms/dateTable/TableHead.svelte";
   import TableHeadCell from "$components/atoms/dateTable/TableHeadCell.svelte";
-  import type { TableData } from "$domain/valueObjects/DataTable";
+  import type { TableData } from "$domain/valueObjects/TableData";
   import { consultationTypeService } from "$services";
   import { t } from "$i18n";
   import TableBody from "$components/atoms/dateTable/TableBody.svelte";

@@ -19,7 +19,6 @@
 
   const handleUpdateConsultationType = async () => {
     const result = await validateForm();
-    console.log(result);
     if (result.valid) {
       validateForm();
       if (action === "add") {
